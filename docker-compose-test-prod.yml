@@ -1,0 +1,40 @@
+version: "3.7"
+
+services:
+
+  food-delivery-db:
+    image: mongo
+    restart: always
+    container_name: food-delivery-db
+    ports:
+      - 27017:27017 
+    volumes:
+      - food-delivery-db:/data/db
+    networks: 
+      - food-delivery-network
+
+  food-delivery-app:
+    image: thisk8brd/food-delivery-app:prod
+    build: 
+      context: .
+      target: prod
+    container_name: food-delivery-app
+    restart: always
+    volumes: 
+      - .:/app
+    ports:
+      - "80:5000"
+    depends_on:
+      - food-delivery-db
+    environment:
+      - MONGODB_URI=mongodb://food-delivery-db/food-delivery-db
+    networks: 
+      - food-delivery-network
+
+volumes: 
+  food-delivery-db:
+    name: food-delivery-db
+
+networks: 
+  food-delivery-network:
+    name: food-delivery-network
