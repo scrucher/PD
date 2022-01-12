@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<%- include("../../includes/head.ejs") %>
+
+    <body>
+
+
+
+        <main>
+            <section style="height: 100%;" id="sidebar">
+                <%- include("../../includes/sidebar.ejs") %>
+
+            </section>
+            <section class="main-panel">
+    <%- include("../../includes/nav-bar.ejs") %>
+
+                        <div class="content">
+                            <div class="container-fluid">
+
+
+                                <div class="content">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5 class="title">Create Admin</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row" id="message">
+
+                                                    </div>
+                                                    <form id="profile_form">
+                                                        <div class="row">
+                                                            <div class="col-md-6 pr-md-1">
+                                                                <div class="form-group">
+                                                                    <label>Username</label>
+                                                                    <input type="text" name='username'
+                                                                        class="form-control"
+                                                                        placeholder="Username">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 pr-md-1">
+                                                                <div class="form-group">
+                                                                    <label for="exampleInputEmail1">Email
+                                                                        address</label>
+                                                                    <input type="email" name='email'
+                                                                        class="form-control"
+                                                                        placeholder="email@example.com">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6 pr-md-1">
+                                                                <div class="form-group">
+                                                                    <label>First Name</label>
+                                                                    <input type="text" name="first_name"
+                                                                        class="form-control"
+                                                                        placeholder="First Name">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 pl-md-1">
+                                                                <div class="form-group">
+                                                                    <label>Last Name</label>
+                                                                    <input type="text" name="last_name"
+                                                                        class="form-control"
+                                                                        placeholder="Last Name">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6 pr-md-1">
+                                                                <div class="form-group">
+                                                                    <label>Password</label>
+                                                                    <input id="password" type="password" name="password"
+                                                                        class="form-control"
+                                                                        onkeyup='check();'
+                                                                        placeholder="Password">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6 pl-md-1">
+                                                                <div class="form-group">
+                                                                    <label>Retype Password</label>
+                                                                    <input type="password" name="password1"
+                                                                        class="form-control"
+                                                                        placeholder="Confirm Password"
+                                                                        id="password_1"
+                                                                        onkeyup='check();'
+                                                                        value="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-4 pr-md-1">
+                                                                <div class="form-group">
+                                                                    <label>City</label>
+                                                                    <input type="text" name="city" class="form-control"
+                                                                        placeholder="City"
+                                                                        value="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4 px-md-1">
+                                                                <div class="form-group">
+                                                                    <label>Position</label>
+                                                                    <input type="text" name="position"
+                                                                        class="form-control"
+                                                                        placeholder="ex: CEO">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4 pl-md-1">
+                                                                <div class="form-group">
+                                                                    <label>Phone</label>
+                                                                        <select id="inputState" class="form-control">
+                                                                            <option selected value="moderator">Moderator</option>
+                                                                            <option value="admin">Admin</option>
+                                                                        </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </form>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <button type="submit" onclick="Update()"
+                                                        class="btn btn-fill btn-primary">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            </section>
+
+
+
+        </main>
+        <script>
+            var check = function () {
+                if ($('#password').val() ==
+                    $('#password_1').val()) {
+                    $('#message').empty();
+                    $('#message').css('color', 'green');
+                    $('#message').append('matching');
+                } else {
+                    $('#message').empty();
+                    $('#message').css('color', 'red');
+                    $('#message').append('not matching');
+                }
+            }
+
+            function Update() {
+                const data = $('#profile_form').serializeArray().reduce(function (obj, item) {
+                    obj[item.name] = item.value;
+                    return obj;
+                }, {});;
+                fetch('/Admin/Profile', {
+                    method: "PATCH",
+                    body: JSON.stringify(data),
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }, (data, err) => {
+                    console.log({ "data": data });
+                    console.log({ "err": err });
+                    location.reload()
+                })
+            }
+
+        </script>
+
+        <%- include("../../includes/scripts.ejs") %>
+    </body>
+
+</html>

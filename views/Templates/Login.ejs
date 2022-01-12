@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>Sidebars · Bootstrap v5.1</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sidebars/">
+
+
+
+    <script type="text/javascript" src="../assets/js/jquery.js"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+            body{
+            background-image: url("../assets/img/2016_09_29_12990_1475116504._large.jpg");
+            padding: 5%;
+            display: flex;
+            justify-content: center;
+        }
+        }
+        body{
+            background-image: url("../assets/img/2016_09_29_12990_1475116504._large.jpg");
+            padding: 15%, 5%, 15%;
+            display: flex;
+            justify-content: center;
+        }
+        #register-card{
+            width: 35%;
+            justify-content: space-around;
+            height: 450px;
+            border-radius: 30px;
+            margin-top: 20px;
+            background-color: rgba(24, 27, 41, 0.623);
+            box-shadow: 10px whitesmoke;
+        }
+        form{
+            width: 70%;
+            margin-left: 15%;
+        }
+        #register-row{
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+        }
+        #register-button{
+            width: 120px;
+            height: 50px;
+        }
+        h1{
+            justify-content: center;
+            display: flex;
+        }
+    </style>
+
+
+    <!-- Custom styles for this template -->
+    <link href="../assets/css/sidebars.css" rel="stylesheet">
+</head>
+
+<body>
+            <div class="card" id="register-card">
+            <section id="login-section">
+                <h1>Welcome Back</h1>
+
+                <form method="post" id="submit-form" class="px-4 py-3" role="form" data-aos="fade-up" data-aos-delay="100">
+                    <% if (locals.error){ %>
+                            <div class="alert alert-warnin" style="color: red; " id="err-msg">
+                                <%= error %>
+                                <% console.log(error) %>
+                            </div>
+                    <% } %>
+                            <div class="row" id="register-row">
+                                <div class="col" id="log-col">
+                                    <input type="text" class="form-control" name="username" placeholder="Username or Email" required>
+                                </div>
+                            </div>
+                            <div class="row" id="register-row">
+                                <div class="col" id="log-col">
+                                    <input type="password" class="form-control" name="password" placeholder="Password" required>
+                                </div>
+                            </div>
+                    <div class="row" id="register-row">
+
+                        <button type="submit" id="register-button" class="btn btn-primary">Sign in</button>
+                    </form>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/Admin/Register" style="color: thistle;">New around here? Sign up</a>
+                        <a class="dropdown-item" href="#"style="color: thistle;">Forgot password?</a>                    
+                    </div>
+                    
+                </form>
+            </section>
+            </div>
+    
+
+
+    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/vendor/aos/aos.js"></script>
+    <!-- <script src="../assets/js/formSubmit.js"></script> -->
+    <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="../assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="../assets/vendor/swiper/swiper-bundle.min.js"></script>
+    
+    <script src="../assets/js/sidebars.js"></script>
+</body>
+    
+</html>
