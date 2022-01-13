@@ -14,16 +14,17 @@ services:
       - food-delivery-network
 
   food-delivery-app:
-    image: thisk8brd/food-delivery-app:prod
+    image: thisk8brd/food-delivery-app:dev
     build: 
       context: .
-      target: prod
+      target: dev
     container_name: food-delivery-app
     restart: always
     volumes: 
       - .:/app
     ports:
-      - "8080:5000"
+      - "5000:5000"
+      - "3000:3000"
     depends_on:
       - food-delivery-db
     environment:

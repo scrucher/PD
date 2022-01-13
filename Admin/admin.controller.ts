@@ -119,6 +119,7 @@ export class AdminController {
                                             httpOnly: true,
                                             maxAge: 90000000,
                                             secure: true,
+                                            //@ts-igonre
                                             overwrite: true
                                             
                                     }

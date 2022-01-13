@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { InternalServerError } from "routing-controllers";
 import { SubCategoryDTO } from "./sub_category.dto";
 import { SubCategoryModel } from "./sub_category.model";
 
@@ -19,7 +18,7 @@ export class SubCategoryController{
             return ({ "data": created, "msg": "SubCategory Created Successfully" });
  
          } catch (err) {
-            throw new InternalServerError('Internal Server Error');
+            res.status(500).json({ "error": "Internal Server Error" });
         }
     }
 
@@ -32,7 +31,7 @@ export class SubCategoryController{
             return res.status(200).json({ data: data });
             
         } catch (err) {
-            throw new InternalServerError('Internal Server Error')
+            res.status(500).json({ "error": "Internal Server Error" });
         }
     }
 
@@ -46,7 +45,7 @@ export class SubCategoryController{
                 .catch(err => err)
             return res.status(200).json({data: data})
         } catch (err) {
-            throw new InternalServerError('Internal Server Error')
+            res.status(500).json({ "error": "Internal Server Error" });
         }
     }
 
@@ -60,7 +59,8 @@ export class SubCategoryController{
                 .catch(err => err )
             return res.status(201).json({ data: updated, "msg": "SubCategory Updated Successfully" });
         } catch (err) {
-            throw new InternalServerError('Internal Server Error');
+           return res.status(500).json({ "error": "Internal Server Error" });
+
         }
     }
 
@@ -70,7 +70,7 @@ export class SubCategoryController{
             await SubCategoryModel.deleteOne().where('_id', id)
             return res.status(200).json({data: "SubCategory Deleted Suyccessfully"})
         } catch (err) {
-            throw new InternalServerError('Internal Server Error')
+            return res.status(500).json({ "error": "Internal Server Error" });
         }
     }
 
@@ -81,7 +81,7 @@ export class SubCategoryController{
             return res.status(200).json({sub : sub})
         } catch (err) {
             console.log(err);
-            throw new InternalServerError('Internal Server Error');
+            return res.status(500).json({"error": "Internal Server Error"}) ;
         }
     }
 }
