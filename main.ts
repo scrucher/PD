@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { DbUrl } from "./Config/DB_Config.config";
+import { DbUrl } from "./Config/config";
 import mongoose from "mongoose";
 import app, { App } from "./server";
 

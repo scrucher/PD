@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
-import { InternalServerError } from "routing-controllers";
-import { Category, CategoryModel } from "./category.model";
+import { CategoryModel } from "./category.model";
 import { CatgoryDTO } from "./category.dto";
 
 
@@ -14,7 +13,7 @@ export class CategoryController{
             return res.status(201).json({data: "Categor Created Successfully"})
         } catch (err) {
             console.log(err)
-            throw new InternalServerError('Internal Server Error');
+            return res.status(500).json({ "error": "Internal Server Error" });
         }
     }
 
@@ -23,7 +22,7 @@ export class CategoryController{
             const data = await CategoryModel.find()
             return res.render('Templates/Admin/Category.ejs', { "data": data });
         } catch (err) {
-            throw new InternalServerError('Internal Server Error');
+            return res.status(500).json({ "error": "Internal Server Error" });
         }
     }
 
@@ -33,7 +32,7 @@ export class CategoryController{
             const data = await CategoryModel.find()
             return res.json({ "data": data });
         } catch (err) {
-            throw new InternalServerError('Internal Server Error');
+            return res.status(500).json({ "error": "Internal Server Error" });
         }
     }
 
@@ -46,7 +45,7 @@ export class CategoryController{
                 .populate('subCategory_id')
             res.status(200).json({ data: category })
         } catch (err) {
-            throw new InternalServerError('Internal Server Error');
+            return res.status(500).json({ "error": "Internal Server Error" });
         }
     }
 
@@ -60,7 +59,7 @@ export class CategoryController{
                 .populate('subCategory_id')
             res.status(200).json({ data: updated })
         } catch (err) {
-            throw new InternalServerError('Internal Server Error');
+            res.status(500).json({ "error": "Internal Server Error" });
         }
     }
     public static async DeleteCategory(req: Request, res: Response) {
@@ -70,7 +69,7 @@ export class CategoryController{
                 // .where('_id', id)
             res.status(200).json({ data: "Category Deleted Successfully" })
         } catch (err) {
-            throw new InternalServerError('Internal Server Error');
+            res.status(500).json({ "error": "Internal Server Error" });
         }
     }
 }
