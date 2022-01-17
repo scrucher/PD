@@ -1,17 +1,16 @@
 import "reflect-metadata";
-import { DbUrl } from "./Config/config";
+import { DbConnectionOptions, DbUrl } from "./Config/config";
 import mongoose from "mongoose";
 import app, { App } from "./server";
 
 async function Bootstrap() {
-    const port = process.env.PORT || 8080
+    const port = process.env.PORT || 5000;
     App();
-    await mongoose.connect(DbUrl, {
-        autoIndex: true,
-    })
+    mongoose.Promise = global.Promise;
+    await mongoose.connect(DbUrl, DbConnectionOptions )
         .then(() => {
             app.listen(port, () => {
-                console.log(`app listen on port ${port}`);
+                console.log(`app listen on  localhost:${port}`);
             });
         })
         .catch(err => {

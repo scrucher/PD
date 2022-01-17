@@ -23,7 +23,7 @@ export class AdminController {
         const admin = plainToClass(CreateAdminDTO, req.body);
         console.log(admin);
         
-        if (admin.password !== admin.password1) return res.json({error: "Paswword Do Not Match"})
+        if (admin.password !== admin.password1) return res.json({error: "Password Do Not Match"})
         const existed = await AdminModel.findOne({email: admin.email})
         .then(data => data)
         .catch(err => console.log(err))
@@ -40,15 +40,21 @@ export class AdminController {
                     return res.json({ error: errorTexts });
                 } else {
                     console.log(admin);
-                    // const salt = bcrypt.genSaltSync(18)
                     const admin_password  = await bcrypt.hash(admin.password, 10)
                     .then(data => data)
                     .catch(err => console.log(err));
                     const data = {
                             username: admin.username,
                             email: admin.email,
-                            // salt: salt,
                             password: admin_password,
+                            last_name: admin.last_name,
+                            first_name: admin.first_name,
+                            role: admin.role,
+                            city: admin.city,
+                            position: admin.position,
+                            phone: admin.phone,
+                            about: admin.about,
+
                             };
                     let saved
                     try{
@@ -67,14 +73,14 @@ export class AdminController {
                                 maxAge: 300000,
                             }
                             )
-                            .redirect(200,"Admin/Profile")
+                            .render('Templates/Admin/Profile.ejs', { "user": existed })
                     }catch(err){
-                        return res.status(401).json({error:`Bad Request`});
+                        return res.render('Templates/Register.ejs',{"error":"Bad Request"})
                     };
                     }
             });;
         }else {
-            return res.status(403).json({error:"user already exist"})
+            return res.render('Templates/Register.ejs',{"error":"Bad Request"})
         }
         return res;
     }
@@ -120,11 +126,11 @@ export class AdminController {
                                             maxAge: 90000000,
                                             secure: true,
                                             //@ts-igonre
-                                            overwrite: true
+                                            // overwrite: true
                                             
                                     }
                                     )
-                                    .redirect(`${process.env.BASE_URL}/Admin/Profile`);
+                                    .render('Templates/Admin/Profile.ejs', { "user": found })
                             }else{
                                 return res.render('Templates/Login.ejs',{"error":"Make Sure You Do Remeber Your email or password"})
                             }

@@ -2,17 +2,23 @@
 <html lang="en">
   <%- include("../../includes/head.ejs") %>
   <body>
+<% if (user !== undefined && user) { %>
 
    
 
 <main>
-      <section style="height: 100%;" id="sidebar">
+      <section style="height: 100%;" id="sidebar">  
+        <% if (user.role === "Admin") { %>
         <%- include("../../includes/sidebar.ejs") %>
+        <% }%>
+        <% if (user.role === "Moderator") { %>
+          <%- include("../../includes/mod-sidebar.ejs") %>
+        <% }%>
     
       </section>
       <section class="main-panel">
         <%- include("../../includes/nav-bar.ejs") %>
-        <% if (user !== undefined && user) { %>
+        
  
   <div class="content">
     <div class="container-fluid">

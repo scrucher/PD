@@ -13,7 +13,6 @@
 
 
 
-    <script type="text/javascript" src="../assets/js/jquery.js"></script>
     <!-- Bootstrap core CSS -->
     <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -25,18 +24,6 @@
             -moz-user-select: none;
             user-select: none;
         }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-            body{
-            background-image: url("../assets/img/2016_09_29_12990_1475116504._large.jpg");
-            padding: 5%;
-            display: flex;
-            justify-content: center;
-        }
-        }
         body{
             background-image: url("../assets/img/2016_09_29_12990_1475116504._large.jpg");
             padding: 15%, 5%, 15%;
@@ -44,7 +31,7 @@
             justify-content: center;
         }
         #register-card{
-            width: 35%;
+            width: 50%;
             justify-content: space-around;
             height: 450px;
             border-radius: 30px;
@@ -53,13 +40,15 @@
             box-shadow: 10px whitesmoke;
         }
         form{
-            width: 70%;
-            margin-left: 15%;
+            width: 100%;
+            /* margin-left: 15%;
+            display: flex;
+            justify-content: center; */
         }
         #register-row{
-            padding: 15px;
             display: flex;
             justify-content: center;
+            padding: 10px;
         }
         #register-button{
             width: 120px;
@@ -68,6 +57,51 @@
         h1{
             justify-content: center;
             display: flex;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+            #register-card{
+                width: 90%;
+                background-color: rgba(24, 27, 41, 0.623);
+                box-shadow: 10px whitesmoke;
+                margin: 10% 25% 25% 25%;
+            }
+            body{
+                display: flex;
+                justify-content: center;
+            }
+
+            #register-row{
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: 10px;
+            }
+        }
+        @media screen and (max-width: 633px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+            #register-card{
+                margin: 100px 15px 15px 15px;
+                width: 90%;
+                background-color: rgba(24, 27, 41, 0.623);
+                box-shadow: 10px whitesmoke;
+            }
+            body{
+                display: flex;
+                justify-content: center;
+            }
+
+            #register-row{
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: 10px;
+            }
         }
     </style>
 
@@ -78,43 +112,45 @@
 
 <body>
             <div class="card" id="register-card">
-            <section id="login-section">
-                <h1>Welcome Back</h1>
+            <section>
+                <h1>Register</h1>
 
                 <form method="post" id="submit-form" class="px-4 py-3" role="form" data-aos="fade-up" data-aos-delay="100">
-                    <% if (locals.error){ %>
-                            <div class="alert alert-warnin" style="color: red; " id="err-msg">
-                                <%= error %>
-                                <% console.log(error) %>
+                            <div class="alert alert-warnin" id="err-msg">
+
                             </div>
-                    <% } %>
                             <div class="row" id="register-row">
-                                <div class="col" id="log-col">
-                                    <input type="text" class="form-control" name="username" placeholder="Username or Email" required>
+                                <div class="col">
+                                    <input type="text" class="form-control" name="username" placeholder="Username"required>
+                                </div>
+                                <div class="col">
+                                    <input type="email" class="form-control" name="email" placeholder="Email" required>
                                 </div>
                             </div>
                             <div class="row" id="register-row">
-                                <div class="col" id="log-col">
+                                <div class="col">
                                     <input type="password" class="form-control" name="password" placeholder="Password" required>
+                                </div>
+                                <div class="col">
+                                    <input type="password" class="form-control" name="password1" placeholder="Confirm Password" required>
                                 </div>
                             </div>
                     <div class="row" id="register-row">
 
-                        <button type="submit" id="register-button" class="btn btn-primary">Sign in</button>
-                    </form>
+                        <button type="submit" id="register-button" class="btn btn-primary">SignUp</button>
+                        
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="/Admin/SignUp" style="color: thistle;">New around here? Sign up</a>
-                        <a class="dropdown-item" href="#"style="color: thistle;">Forgot password?</a>                    
+                        <a class="dropdown-item" href="#">Already Have An Account? Sign In</a>
+                        <a class="dropdown-item" href="#">Forgot password?</a>                    
                     </div>
                     
                 </form>
             </section>
             </div>
-    
-
 
     <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/vendor/aos/aos.js"></script>
+    <script src="../assets/js/jquery.js"></script>
     <!-- <script src="../assets/js/formSubmit.js"></script> -->
     <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/vendor/glightbox/js/glightbox.min.js"></script>

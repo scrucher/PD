@@ -1,5 +1,5 @@
 import express from "express";
-import IsSuperAdmin from "../middlewares/auth/is_super_user.middleware";
+import IsSuperAdmin from "../Middlewares/auth/is_super_user.middleware";
 import { CategoryController } from "./category.controller";
 
 

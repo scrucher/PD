@@ -42,4 +42,8 @@ export class CreateAdminDTO{
     @IsString()
     @IsOptional()
     about: string;
+
+    @IsString()
+    @IsOptional()
+    role: string;
 }

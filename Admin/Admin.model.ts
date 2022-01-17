@@ -32,6 +32,13 @@ export class Admin extends Schema {
     @prop()
     public position: string;
 
+    @prop({
+        type: String,
+        enum: ["Admin", "Moderator"],
+        default: "Admin"
+    })
+    role: string;
+
 }
 
 export const AdminModel = getModelForClass(Admin, { schemaOptions: { timestamps: true } })

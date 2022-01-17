@@ -1,6 +1,6 @@
 import express from "express";
 import path from "path";
-import IsSuperAdmin from "../middlewares/auth/is_super_user.middleware";
+import IsSuperAdmin from "../Middlewares/auth/is_super_user.middleware";
 import { ProductController } from "./Product.controller";
 
 

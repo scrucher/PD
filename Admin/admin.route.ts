@@ -1,5 +1,5 @@
 import express from "express";
-import IsSuperAdmin from "../middlewares/auth/is_super_user.middleware";
+import IsSuperAdmin from "../Middlewares/auth/is_super_user.middleware";
 import { AdminController } from "./admin.controller";
 // import IsSuperAdmin from "../middlewares/auth/is_super_user.middleware";
 // import IsSuperUser from '../middlewares/auth/is_super_user.middleware'
@@ -8,11 +8,14 @@ import { AdminController } from "./admin.controller";
 const admin_router = express.Router();
 
 
-admin_router.post('/Admin/Register', AdminController.CreateAdmin); // Create Admin
+admin_router.post('/Admin/SignUp', AdminController.CreateAdmin); // Create Admin
 admin_router.post('/Admin/Login', AdminController.AdminLogin);  // Authenticate Admin
 admin_router.get('/Admin/Profile', IsSuperAdmin, AdminController.getAdminProfile)
 admin_router.get('/Admin/Login', (req, res) => {
     res.render('Templates/Login.ejs');
+})
+admin_router.get("/Admin/SignUp", (req, res)=>{
+    res.render('Templates/Register.ejs');
 })
 admin_router.get('/Admin', (req, res) => {
     res.render('Templates/Admin/admin.ejs');
