@@ -18,7 +18,7 @@ const IsSuperAdmin = async (req, res, next) => {
         console.log(token)
 
         if (!token){
-            res.setHeader("message", "Unauthorized").redirect(`${process.env.BASE_URL}/Admin/Login`)
+            return res.render('Templates/Login.ejs',{"error":"Unauthorized"})
         }else {
             //@ts-ignore
             const decooded: Payload = decode_token(token);
@@ -32,14 +32,14 @@ const IsSuperAdmin = async (req, res, next) => {
             // @ts-ignore
             req.user = super_admin;
 
-            if (super_admin !== null)
+            //@ts-ignore
+            if (super_admin.role === "Admin")
             {
                 console.log(super_admin)
                 next();
             }else 
             {
-                res.setHeader("message" , "access denied");
-                return res.status(401).send("access denied");
+                return res.render('Templates/Login.ejs',{"error":"Access Denied"})
             } 
         }          
     }catch(err){

@@ -7,7 +7,9 @@ services:
     restart: always
     container_name: food-delivery-db
     ports:
-      - 27017:27017 
+      - 27018:27017
+    environment:
+      MONGO_INITDB_DATABASE: food-delivery-db 
     volumes:
       - food-delivery-db:/data/db
     networks: 
@@ -28,9 +30,10 @@ services:
     depends_on:
       - food-delivery-db
     environment:
-      - MONGODB_URI=mongodb://food-delivery-db/food-delivery-db
+      - MONGODB_URI=mongodb://food-delivery-db/
     networks: 
       - food-delivery-network
+
 
 volumes: 
   food-delivery-db:
@@ -39,3 +42,4 @@ volumes:
 networks: 
   food-delivery-network:
     name: food-delivery-network
+    driver: bridge

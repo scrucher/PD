@@ -29,7 +29,7 @@
                                                     <div class="row" id="message">
 
                                                     </div>
-                                                    <form id="profile_form">
+                                                    <form id="profile_form" method="post" action="/Admin/SignUp">
                                                         <div class="row">
                                                             <div class="col-md-6 pr-md-1">
                                                                 <div class="form-group">
@@ -108,8 +108,8 @@
                                                             </div>
                                                             <div class="col-md-4 pl-md-1">
                                                                 <div class="form-group">
-                                                                    <label>Phone</label>
-                                                                        <select id="inputState" class="form-control">
+                                                                    <label>Role</label>
+                                                                        <select id="inputState" name="role" class="form-control">
                                                                             <option selected value="moderator">Moderator</option>
                                                                             <option value="admin">Admin</option>
                                                                         </select>
@@ -154,16 +154,16 @@
                     obj[item.name] = item.value;
                     return obj;
                 }, {});;
-                fetch('/Admin/Profile', {
-                    method: "PATCH",
+                fetch('/Admin/SignUp', {
+                    method: "POST",
                     body: JSON.stringify(data),
                     headers: {
                         "Content-Type": "application/json"
                     }
-                }, (data, err) => {
-                    console.log({ "data": data });
-                    console.log({ "err": err });
-                    location.reload()
+                })
+                .then(data=> data.json())
+                .then(data =>{
+                    console.log(data);
                 })
             }
 
