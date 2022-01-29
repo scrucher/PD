@@ -46,7 +46,7 @@
         #register-card{
             width: 35%;
             justify-content: space-around;
-            height: 450px max-content;
+            height: 450px;
             border-radius: 30px;
             margin-top: 20px;
             background-color: rgba(24, 27, 41, 0.623);
@@ -69,29 +69,6 @@
             justify-content: center;
             display: flex;
         }
-
-        @media screen and (max-width: 633px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-            #register-card{
-                margin: 100px 15px 15px 15px;
-                width: 90%;
-                background-color: rgba(24, 27, 41, 0.623);
-                box-shadow: 10px whitesmoke;
-            }
-            body{
-                display: flex;
-                justify-content: center;
-            }
-
-            #register-row{
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                padding: 10px;
-            }
-        }
     </style>
 
 
@@ -108,7 +85,7 @@
                     <% if (locals.error){ %>
                             <div class="alert alert-warnin" 
                             style="align-items: center; color: red; background-color: burlywood; width: fit-content;"
-                             id="err-msg">
+                            " id="err-msg">
                                 <%= error %>
                                 <% console.log(error) %>
                             </div>
@@ -129,7 +106,7 @@
                     </form>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/Admin/SignUp" style="color: thistle;">New around here? Sign up</a>
-                        <a class="dropdown-item" href="/Admin/Forgot-password"style="color: thistle;">Forgot password?</a>                    
+                        <a class="dropdown-item" href="#"style="color: thistle;">Forgot password?</a>                    
                     </div>
                     
                 </form>

@@ -24,7 +24,6 @@ const IsSuperAdmin = async (req, res, next) => {
             const decooded: Payload = decode_token(token);
             //@ts-ignore
             const data = decooded.payload
-            //@ts-ignore
             const super_admin = await AdminModel.findOne().or([{ username: data.username }, { email: data.username }]).then(data => data)
             .then(data => data)
             .catch (err=> console.log(err));
@@ -39,11 +38,11 @@ const IsSuperAdmin = async (req, res, next) => {
                 next();
             }else 
             {
-                return res.render('Templates/Login.ejs',{"error":"Access Denied"})
+                return res.render('Templates/Login.ejs',{"error":"Aceess Denied "})
             } 
         }          
     }catch(err){
-        res.setHeader("message" , "Unauthorized").redirect(`${process.env.BASE_URL}/Admin/Login`)
+        return res.render('Templates/Login.ejs',{"error":" Unauthorized"})
     }    
     return res;
 }

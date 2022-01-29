@@ -110,8 +110,8 @@
                                                                 <div class="form-group">
                                                                     <label>Role</label>
                                                                         <select id="inputState" name="role" class="form-control">
-                                                                            <option selected value="moderator">Moderator</option>
-                                                                            <option value="admin">Admin</option>
+                                                                            <option selected value="Moderator">Moderator</option>
+                                                                            <option value="Admin">Admin</option>
                                                                         </select>
                                                                 </div>
                                                             </div>
@@ -140,10 +140,18 @@
                 if ($('#password').val() ==
                     $('#password_1').val()) {
                     $('#message').empty();
+                    $('#message').css("width", "fit-content");
+                    $('#message').css("background-color", "#87debd");
+                    $('#message').css("font", "20 px bold");
+                    $('#message').css("margin-left", "40%");
                     $('#message').css('color', 'green');
                     $('#message').append('matching');
                 } else {
                     $('#message').empty();
+                    $('#message').css("width", "fit-content");
+                    $('#message').css("background-color", "burlywood");
+                    $('#message').css("margin-left", "40%");                    
+                    $('#message').css("font", "30px bold icon");
                     $('#message').css('color', 'red');
                     $('#message').append('not matching');
                 }
@@ -164,6 +172,16 @@
                 .then(data=> data.json())
                 .then(data =>{
                     console.log(data);
+                    if (data.error){
+                    $('#message').empty();
+                    $('#message').css('color', 'red');
+                    $('#message').append(data.error)
+                    }
+                    if (data.msg){
+                    $('#message').empty();
+                    $('#message').css('color', 'green');
+                    $('#message').append(data.msg)
+                    }
                 })
             }
 

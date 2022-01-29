@@ -36,11 +36,11 @@ export class User extends Schema {
     @prop()
     image: string
 
-    @prop({
-        type: [Number],
-        required: true,
-    })
-    location: number[];
+    // @prop({
+    //     type: [Number],
+    //     required: true,
+    // })
+    // location: number[];
 
 
 }

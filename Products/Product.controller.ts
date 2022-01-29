@@ -15,6 +15,8 @@ export class ProductController{
             subCategory_id,
             charachteristics }: ProductDTO = req.body
         console.log({ "file_name": req.files })
+        console.log({ "file_name": req.file })
+
         // const image = req.files?.image.name
         const data = {
             name: name,
@@ -26,23 +28,25 @@ export class ProductController{
         }
         try {
             await ProductModel.create(data)
-                .then( async () => {
-                    let charchteristic : CharDto
-                    for (charchteristic of charachteristics) {
-                        const dt = {
-                            char_name: charchteristic.char_name,
-                            char_price: charchteristic.char_price,
-                        }
-                        try {
-                            await CharacteristicsModel.create(dt)
-                            res.status(201).json({ msg: "Product Created Successfully" });
-                        } catch (err) {
-                            res.status(500).json({ error: "Connot Save Characteristic" });
-                        }
-                    }
+                .then( async (data) => {
+                    return data;
+                    // let charchteristic : CharDto
+                    // for (charchteristic of charachteristics) {
+                    //     const dt = {
+                    //         char_name: charchteristic.char_name,
+                    //         char_price: charchteristic.char_price,
+                    //     }
+                    //     try {
+                    //         await CharacteristicsModel.create(dt)
+                    //         res.status(201).json({ msg: "Product Created Successfully" });
+                    //     } catch (err) {
+                    //         res.status(500).json({ error: "Connot Save Characteristic" });
+                    //     }
+                    // }
                 })
         } catch (err) {
-            res.status(500).json({error: "Cannot Save Product"})
+            console.log(err)
+            res.status(500).json({"error": "Cannot Save Product"})
         }
     }
     public static async GetAllProducts(req: Request, res: Response) {
@@ -53,6 +57,18 @@ export class ProductController{
                 .populate("subCategory_id")
                 .exec()
             return res.render('Templates/Admin/Products.ejs', { "data": data });
+        } catch (err) {
+            return res.status(500).json({"err": "Internal Server Error"})
+        }
+    }
+    public static async GetProducts(req: Request, res: Response) {
+        try {
+            console.log("here we go")
+            const data = await ProductModel.find()
+                .populate("category_id")
+                .populate("subCategory_id")
+                .exec()
+            return res.status(200).json({ "data": data });
         } catch (err) {
             return res.status(500).json({"err": "Internal Server Error"})
         }

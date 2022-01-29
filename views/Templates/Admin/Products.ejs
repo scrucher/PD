@@ -111,7 +111,7 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form id="product_form">
+                <form id="product_form" onsubmit=" return false; ">
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="category_id" >Category</label>
@@ -261,6 +261,7 @@
               const dt = $('#product_form').serializeArray().reduce(function (obj, item) {
                 obj[item.name] = item.value;
                 return obj;
+              localStorage.setItem("formData", dt)
               }, {});;
               const img = $('#img-upload').serialize();
               console.log(img)
@@ -280,7 +281,7 @@
                 })
                 .catch(err => err)
               location.reload(true)
-              return data;
+              return false;
             }
 )
            

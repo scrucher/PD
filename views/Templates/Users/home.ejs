@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<%- include("../../includes/head.ejs") %>
+<body>
+<style>
+    .content {
+        margin-top: 15px;
+        width: 100%;
+        padding-left: 58px !important;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .container {
+        height: 100%;
+    }
+
+    section {
+        margin-top: 10px;
+    }
+
+    #cat-row {
+        display: flex;
+        justify-content: space-between;
+        overflow-y: auto;
+        max-height: 140px;
+    }
+
+    .col {
+        width: 80px;
+    }
+
+    #sub-con {
+        width: 150px;
+        display: flex;
+        justify-content: center;
+    }
+
+    button {
+        border: 0px transparent;
+        background: transparent;
+    }
+
+    #prod-btn {
+        width: 100px;
+        height: 40px;
+        font-size: 17px;
+    }
+</style>
+
+
+<main>
+
+    <section class="main-panel">
+        <%- include("nav-bar-user.ejs") %>
+
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <section>
+                            <h1>Categories</h1>
+                            <div class="row" id="cat-row">
+
+
+                            </div>
+                        </section>
+                        <section>
+                            <h1 class="section-title">Product</h1>
+                            <div class="row" id="prod-row">
+
+                            </div>
+                        </section>
+                    </div>
+                    <div class="col col-lg-2" id="sub-con">
+                        <h1>Sub-Categories</h1>
+                        <div class="row" id="sub-row">
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row" id="pro-row">
+
+            </div>
+
+        </div>
+    </section>
+
+
+</main>
+<script>
+    window.addEventListener('load',
+        function () {
+            fetch("/Category", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }).then(data => data.json())
+                .then(data => {
+                    const arr = data.data
+                    for (const dt of arr) {
+                        const res =
+                            ` <div class="card" value="${dt._id}" style="width: 150px; height:80px; margin: 10px; ">
+              <img class="card-img" src="${dt.image}" alt="">
+              <div class="card-body">
+              <button id="cat-btn" onclick ="getSub(${dt._id})" class="btn-cat" value="${dt._id}" type="button" >
+                <p class="card-text"> ${dt.category_name}</p>
+              </button>
+              </div>
+              </div>`
+                        $('#cat-row').append(res)
+                    }
+                })
+            fetch("/Products", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            }).then(data => data.json())
+                .then(data => {
+                    console.log({"Product data": data})
+                    const arr = data.data
+                    for (const dt of arr) {
+                        const res =
+                            `<div class="card" style="height: 200px; width: 260px; margin: 10px; ">
+                            <img class="card-img" src="${dt.image}" alt="">
+                            <div class="card-body">
+                            <h4>${dt.name}</h4>
+                            <button id="cat-btn" value="${dt._id}" type="button" >
+                            <p class="card-text"> ${dt.price}</p>
+                    </button>
+                    </div>
+                    <div class="button-container">
+                        <button type="button" id="prod-btn" class="btn btn-primary"><i class="fas fa-shopping-cart"></i></button>
+                    </div>
+                    </div>`
+                        $('#prod-row').append(res)
+                    }
+                })
+
+
+        }
+    )
+
+    function getSub(id) {
+        console.log(id)
+        fetch(`/Adimn/Category/SubCategory/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+            .then(data => data.json())
+            .then(data => {
+                // $('#sub-row').empty()
+                const arr = data.sub
+                for (const dt of arr) {
+                    console.log(dt)
+
+                    const res = `<a target="_self" style="width: 150px; padding: 7px;" > <div class="card" value="${dt._id}" style="width: 150px; height: 150; margin: 10px; background-image: src('../../../Public/assets/img/fast-food.jpg');">
+                  <img class="card-img" src="${dt.image}" alt="">
+                  <div class="card-body">
+                  <p class="card-text"> ${dt.subCategory_name}</p>
+                  </div>
+                  </div></a>`
+                    $('#sub-row').append(res)
+                }
+
+            })
+        return false;
+    }
+
+</script>
+
+<%- include("../../includes/scripts.ejs") %>
+
+</body>
+</html>
