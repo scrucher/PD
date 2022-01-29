@@ -24,10 +24,10 @@ export class AdminController {
         console.log(admin);
         
         if (admin.password !== admin.password1) return res.json({error: "Password Do Not Match"})
-        const existed = await AdminModel.findOne({email: admin.email})
+        const existed =  await AdminModel.findOne().or([{username:admin.username}, {email: admin.username}]).then(data =>data)
+
         .then(data => data)
         .catch(err => console.log(err))
-        console.log(existed);
         if (!existed){
             await validate(admin)
             .then(async (errors) => {
@@ -41,46 +41,33 @@ export class AdminController {
                 } else {
                     console.log(admin);
                     const admin_password  = await bcrypt.hash(admin.password, 10)
-                    .then(data => data)
-                    .catch(err => console.log(err));
-                    const data = {
-                            username: admin.username,
-                            email: admin.email,
-                            password: admin_password,
-                            last_name: admin.last_name,
-                            first_name: admin.first_name,
-                            role: admin.role,
-                            city: admin.city,
-                            position: admin.position,
-                            phone: admin.phone,
-                            about: admin.about,
-
-                            };
+                    console.log(admin_password)
+                    const  Admin = new AdminModel();
+                    Admin.username= admin.username;
+                    Admin.email = admin.email;
+                    Admin.password = admin_password;
+                    Admin.first_name= admin.first_name;
+                    Admin.last_name = admin.last_name;
+                    Admin.role = admin.role;
+                    Admin.position = admin.position;
+                    Admin.about = admin.about;
+                    console.log(Admin)
                     let saved
                     try{
-                        saved = await AdminModel.create(data)
+                        saved = await Admin.save().then(data=>{
+                            console.log({"data from inside the promise": data})
+                        }).catch
                         console.log(saved);
-                        const payload: Payload = {
-                            username: admin.username,
-                            password: admin.password,
-                        }
-                        const token = GenerateTK(payload)
-                        return res
-                            .cookie(
-                                "access_token",
-                                token, {
-                                httpOnly: true,
-                                maxAge: 300000,
-                            }
-                            )
-                            .render('Templates/Admin/Profile.ejs', { "user": existed })
+                        return res.status(201)
+                            .json({ "msg": "user created successfully"})
                     }catch(err){
-                        return res.render('Templates/Register.ejs',{"error":"Bad Request"})
+                        console.log(err)
+                        return res.json({"error":"Internal Server Error"})
                     };
                     }
             });;
         }else {
-            return res.render('Templates/Register.ejs',{"error":"Bad Request"})
+            return res.json({"error":"User Already Exist"})
         }
         return res;
     }
@@ -109,7 +96,6 @@ export class AdminController {
                     console.log({"found:":found});
                     if (found){
                         try {
-                            
                             const paswd = found.password;
                             const checked = await bcrypt.compare(admin.password, paswd)
                             if (checked ) {
@@ -127,7 +113,6 @@ export class AdminController {
                                             secure: true,
                                             //@ts-igonre
                                             // overwrite: true
-                                            
                                     }
                                     )
                                     .render('Templates/Admin/Profile.ejs', { "user": found })

@@ -321,6 +321,7 @@ demo = {
     gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
     gradientFill.addColorStop(1, "rgba(249, 99, 59, 0.40)");
 
+    //Active Charat Users Insert Data Here
     myChart = new Chart(ctx, {
       type: 'line',
       responsive: true,

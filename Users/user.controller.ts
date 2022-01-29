@@ -9,7 +9,7 @@ import { validate } from "class-validator";
 
 
 export class UserController{
-    async CreateStore(req: Request, res: Response) {
+    public static async CreateUser(req: Request, res: Response) {
         const
             { username,
                 email,
@@ -23,7 +23,7 @@ export class UserController{
         const found = await UserModel.findOne().or([{"username": username}, {"email": email}])
         if (found) {
             console.log(found)
-            return res.status(300).json({"err":"Account Already Exist"})
+            return res.render("Templates/Users/Register.ejs", {"error": "User Already Exist"})
         } else {
             const user = new UserModel;
             user.username = username;
@@ -33,12 +33,12 @@ export class UserController{
             user.city = city;
             user.image = image;
             user.adress = adress;
-            user.location = location;
+            // user.location = location;
             const saved = await user.save()
                 .then(data => data)
                 .catch(err => {
                     console.log(err);
-                    return res.status(500).json({"err": "Internal Server Error"})
+                    return res.render("Templates/Users/Register.ejs", {"error": "Internal Server Error"})
                 }
                 );
             const payload: Payload = {
@@ -46,11 +46,21 @@ export class UserController{
                 password: user.password
             }
             const token: string = GenerateTK(payload);
-            return ({ token: token });
+            res.cookie(
+                "access_token",
+                token, {
+                    httpOnly: true,
+                    maxAge: 90000000,
+                    secure: true,
+                    //@ts-igonre
+                    // overwrite: true
+            }
+            ).
+            render("Templates/Users/Profile.ejs", {"user": saved})
         }
     }
 
-    public static async Login(req : Request, res: Response) {
+    public static async UserLogin(req : Request, res: Response) {
         const user = plainToClass(Payload, req.body);
         await validate(user ,{ skipMissingProperties: true })
         .then(async (errors) => {
@@ -60,13 +70,13 @@ export class UserController{
                     errorTexts = errorTexts.concat(errorItem.constraints);
                 }
                 console.log(errorTexts);
-                return res.render('Templates/Login.ejs',{"error": errorTexts});
+                return res.render('Templates/Users/Login.ejs',{"error": errorTexts});
             } else {
                 try{
                     const found = await UserModel.findOne().or([{username:user.username}, {email: user.username}]).then(data =>data)
                     .catch(err => {
                         console.log(err);
-                        res.render('Templates/Login.ejs',{"error":"Internal Server Error"})
+                        res.render('Templates/Users/Login.ejs',{"error":"Internal Server Error"})
                     });
                     console.log({"found:":found});
                     if (found){
@@ -92,73 +102,77 @@ export class UserController{
                                             
                                     }
                                     )
-                                    .render('Templates/User/Profile.ejs', { "user": found })
+                                    .render('Templates/Users/Profile.ejs', { "user": found })
                             }else{
-                                return res.render('Templates/Login.ejs',{"error":"Make Sure You Do Remeber Your email or password"})
+                                return res.render('Templates/Users/Login.ejs',{"error":"Make Sure You Do Remeber Your email or password"})
                             }
                         }catch(err){
                             console.log(err)
-                            return res.render('Templates/Login.ejs',{"error":"Something Went Wrong"})
+                            return res.render('Templates/Users/Login.ejs',{"error":"Something Went Wrong"})
                         }
 
                     }else{
-                        return res.render('Templates/Login.ejs',{"error":'User With Credentials Doesnt Exist'})
+                        return res.render('Templates/Users/Login.ejs',{"error":'User With Credentials Doesnt Exist'})
                     }
                 }catch(error: any){
-                    return res.render('Templates/Login.ejs',{"error":"Bad Request"})
+                    return res.render('Templates/Users/Login.ejs',{"error":"Bad Request"})
                 }
             }});
          return res;
     }
 
-    async getAllStores() {
+    public static async getAllUsers(req: Request, res: Response): Promise<Response> {
         const found = await UserModel.find()
             .then((data: any) => {
-                return data
+                return res.status(200).json({"data": data})
             })
             .catch((err: Error) => {
                 console.log(err);
-                return ("Internal Server error");
+                return res.status(500).json({"error":"Internal Server error"});
             })
-            
         return found;
     }
 
-    async getStoreById(): Promise<User> {
-        const id = ""
-        const found = await UserModel.findById(id)
-            .then((data: any) => {
-                return data
-            })
+    public static async getProfile (req: Request, res: Response): Promise<Response | void> {
+        //@ts-ignore
+        const id = req.user._id
+        const found = await UserModel.findOne().where("_id", id)
+            .then(data=>data)
             .catch((err: Error) => {
                 console.log(err);
-                return ("Internal Server error");
+                return res.status(500).json({"error":"Internal Server Error"});
             })
+            console.log(found);
+            
 
-        return found;
+        return res.render("Templates/Users/Profile", {"user": found}) ;
         
     }
 
-    async deleteUser(id: string): Promise<any> {
+    public static async DeleteUser (req: Request, res: Response): Promise<any> {
+        const id = req.params
         let deleted;
         try {
-            deleted = await UserModel.deleteOne({ _id: id })
+            deleted = await UserModel.deleteOne().where("_id", id)
         } catch (err) {
-            throw new InternalServerError('Internal Server Error')
+            return res.status(500).json({"error":'Internal Server Error'})
         }
-        if (deleted.deletedCount === 1) return "User Deleted Successfully";
+        if (deleted.deletedCount === 1) return res.status(500).json({"data" :"User Deleted Successfully"});
+        return res;
     }
 
-    async updateUser(id: string, userInput: UserInput) {
-        const data = userInput;
+    public static async UpdateUser (req: Request, res: Response): Promise<Response> {
+        const data = req.body;
+        //@ts-ignore
+        const id = req.user._id
         let updated;
-        {
-            updated = await UserModel.updateOne({ _id: id }, data, {
-                upsert: true,
-            })
+        try{
+            updated = await UserModel.updateOne(data).where("_id", id)
+        }catch(err){
+            return res.status(500).json({"error": "Internal Server Error"})
         }
-        return updated;
-        }
+        return res.status(200).json({"msg": "Profile Updated Successfully"}) ;
+    }
 
         // async updateUserLocation(locationInput: LocationInput, context: Context) {
         //     //@ts-ignore

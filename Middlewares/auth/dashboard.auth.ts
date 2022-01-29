@@ -1,57 +1,51 @@
-// import Admin from "../../models/admin";
-// import AdminUser from "../../models/admin_user";
-// import decode_token from "../../utility/decode_token";
+import decode_token from "../../Utilities/decode_token";
+import { Payload } from "../../Utilities/payload";
+import * as dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+import { UserModel } from "../../Users/user.model";
 
-// //@ts-ignore
-// const IsSuperAdmin = async (req, res, next) => {
-//     try{    
-//         // const token = req.header("Authorization").replace("Bearer ", "")
-//         const token = req.cookies.access_token
-//         if (!token){
-//             res.setHeader("message" , "Unauthorized");
-//             res.status(401).json("Unauthorized");
-//         }else {
+dotenv.config();
+//@ts-ignore
+const IsAuthenticated = async (req, res, next) => {
+    console.log({
+        "headers": req.headers,
+        "headers_cookie": req.headers.cookie,
+        "cookie": req.signedCookie,
+    });
+    try{    
+        // const token = req.header("Authorization").replace("Bearer ", "")
+        const token = req.headers.cookie.replace("access_token=", "")
+        console.log(token)
 
-//             const decooded = decode_token(token);
-//             //@ts-ignore
-//             console.log(decooded.id);
-//             const super_admin = await Admin.findOne({
-//                 where:{
-//                     //@ts-ignore 
-//                     id_admin:decooded.id,            
-//                 }
-//             })
-//             .then(data => data)
-//             .catch (err=> console.log(err));
-//             console.log(super_admin);
-//             const admin_user = await AdminUser.findOne({
-//                 where:{
-//                     //@ts-ignore 
-//                     id_admin:decooded.id,            
-//                 }
-//             })
-//             .then(data => data)
-//             .catch (err=> console.log(err));
-//             console.log(super_admin);
-//             // @ts-ignore
-//             req.user_id= decooded.id
+        if (!token){
+            return res.render('Templates/Users/Login.ejs',{"error":"Unauthorized"})
+        }else {
+            //@ts-ignore
+            const decooded: Payload = decode_token(token);
+            //@ts-ignore
+            const data = decooded.payload
+            //@ts-ignore
+            const user = await UserModel.findOne().or([{ username: data.username }, { email: data.username }]).then(data => data)
+            .then(data => data)
+            .catch (err=> console.log(err));
+            console.log(user);
+            // @ts-ignore
+            req.user = user;
 
-//             if (super_admin)
-//             {
-//                 next();
-//             }else if(admin_user)
-//             {
-//                 next();
-//             }else {
-//                 res.setHeader("message" , "Access Denied");
-//                 res.status(401).json("Access Denied").redirect('localhost:3000/login/');
-//             } 
-//         }          
-//     }catch(err){
-//         res.setHeader("message" , "Unauthorized");
-//         res.status(401).json("Unauthorized").redirect('localhost:3000/login/');
-//     }    
-//     return res;
-// }
+            
+            if (user)
+            {
+                console.log(user)
+                next();
+            }else 
+            {
+                return res.render('Templates/Users/Login.ejs',{"error":"Aceess Denied "})
+            } 
+        }          
+    }catch(err){
+        return res.render('Templates/Users/Login.ejs',{"error":" Unauthorized"})
+    }    
+    return res;
+}
   
-// export default IsSuperAdmin
+export default IsAuthenticated
