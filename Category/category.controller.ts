@@ -9,7 +9,7 @@ export class CategoryController{
         const category: CatgoryDTO = req.body
         try {
             await CategoryModel.create(category)
-            return res.status(201).json({data: "Categor Created Successfully"})
+            return res.status(201).json({data: "Category Created Successfully"})
         } catch (err) {
             console.log(err)
             return res.status(500).json({ "error": "Internal Server Error" });

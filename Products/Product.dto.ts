@@ -1,5 +1,5 @@
 import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
-import { CharDto } from "./characteristics.dto";
+import { CharDto } from "../Charcteristics/characteristics.dto";
 
 export class ProductDTO{
     @IsString()

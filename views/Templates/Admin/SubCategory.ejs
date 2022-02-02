@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+
+<%- include('../../includes/head.ejs') %>
+
+<style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    .my-custom-scrollbar {
+        position: relative;
+        height: 200px;
+        overflow: auto;
+    }
+
+    .table-wrapper-scroll-y {
+        display: block;
+    }
+
+    .badge {
+        position: relative;
+        top: -40px;
+        left: -10px;
+        border-radius: 50%;
+        background-color: red;
+        font-size: 10px;
+    }
+
+    .fa-minus-circle {
+        color: red;
+    }
+
+    .fa-edit {
+        color: rgb(131, 240, 140);
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+
+    #btn {
+        background-color: transparent;
+        border: 0px transparent;
+    }
+
+</style>
+
+
+<body>
+
+
+<main>
+
+    <section style="height: 100%;">
+        <%- include("../../includes/sidebar.ejs") %>
+
+    </section>
+
+    <section class="main-panel" style="height: 100%; width: 100%;">
+        <%- include("../../includes/nav-bar.ejs") %>
+
+        <div class="content">
+            <!-- end nav-bar -->
+            <div class="row" style="padding-top: 25px;">
+                <div class="col">
+                    <div class="card" style="height: 350px;">
+                        <% if (data !== undefined && data ) { %>
+                        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 100%;">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Category Name</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <% for (let i = 0; i < data.length; i++) { %>
+                                    <% console.log(data) %>
+                                    <tr onclick="">
+                                        <th aria-valuetext="<%= data[i]._id %>" value="<%= data[i]._id %>">
+                                            <input type="submit" id="category_id" name="category_id"
+                                                   onclick="getSubCategories('<%= data[i]._id %>')"
+                                                   value="<%= data[i]._id %>"
+                                                   style="background-color: transparent; border: 0px transparent;">
+                                            <!-- <%= data[i]._id %> -->
+                                        </th>
+                                        <td><%= data[i].subCategory_name %></td>
+                                        <th>
+                                            <button id="btn" class="fas fa-minus-circle"
+                                                    onclick="deleteCategory('<%= data[i]._id %>')"></button>
+                                            <button id="btn" class="fas fa-edit"></button>
+                                        </th>
+                                    </tr>
+                                <%
+                                    console.log(data);
+                                } }
+                                %>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card" style="height: 350px;">
+                        <form onsubmit="return false;" style="display: flex; " id="subCategory_form">
+                            <div class="row">
+                                <div class="col-md-6 pr-md-1">
+                                        <div class="form-group" style="width: 60%;">
+                                            <input type="text" name="subCategory_name" class="form-control" required>
+                                        </div>
+                                </div>
+                                <div class="col-md-6 pr-md-1">
+                                    <div class="form-group" style="width: 25%;">
+                                        <select name="category_id" id="select_cat">
+                                            <% if (data !== undefined && data ) { %>
+                                                <% for (var dt of data) { %>
+                                                    <option id="category_id" name="category_id"
+                                                            value="<%= dt._id %>"><%= dt.category_name %></option>
+                                            <% console.log(data); } } %>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group" style="width: 15%;">
+                                <button type="submit" onclick="createSubCategory()" class="btn btn-info">Create
+                                </button>
+                            </div>
+
+
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+    </section>
+
+
+</main>
+<script>
+    function getCategory() {
+        const data = fetch("/Admin/Category", {
+            method: "GET",
+            headers: document.headers,
+        }).then(data => console.log(data))
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
+    function showModal() {
+        $('#myModal').modal('show');
+    }
+
+    // function getSubcategories(id){
+    //     const data = fetch('Admin/SubCategory',{
+    //         method: "GET",
+    //         headers: headers,
+    //         params: JSON.stringify(id),
+    //     }, (dt, err)=>{
+    //         if(dt){
+    //             return dt;
+    //         }else{
+    //             return err;
+    //         }
+    //     })
+    // }
+
+    function createCategory() {
+        console.log("working but the rest ?")
+        const dt = $('#category_form').serializeArray().reduce(function (obj, item) {
+            obj[item.name] = item.value;
+            return obj;
+        }, {});
+        ;
+        console.log(dt)
+        const data = fetch('/Admin/Category', {
+            method: "POST",
+            body: JSON.stringify(dt),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(data => {
+                $('#msg').append(data.data)
+                getCategory();
+                //  document.load();
+            })
+            .catch(err => err)
+        // location.reload(true);
+        return false;
+
+
+    }
+
+    function createSubCategory() {
+        const dt = $('#subCategory_form').serializeArray().reduce(function (obj, item) {
+            obj[item.name] = item.value;
+            return obj;
+        }, {});
+        ;
+
+        console.log(dt);
+        const data = fetch('/Admin/SubCategory', {
+            method: "POST",
+            body: JSON.stringify(dt),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(data => {
+                $('#msg').append(data)
+                getCategory();
+                document.load();
+            })
+            .catch(err => err)
+        // location.reload(true)
+        return data;
+    }
+
+    function getSubCategories(id) {
+        const _id = $('#category_id').val()
+        console.log({
+            "_id": _id,
+            "id": id,
+        })
+        $('#sub_table').empty();
+        const data = fetch(`/Adimn/Category/SubCategory/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+
+            },
+        })
+            .then(data => data.json())
+            .then(data => {
+
+                const arr = data.sub
+                for (let dat of arr) {
+                    console.log(dat);
+                    const dt =
+                        `<tr class='sub_row' id="sub_row" data-href='url://'>
+                                <th scope="row">${dat._id}</th>
+                                <td>${dat.subCategory_name}</td>
+                                <th>
+                                    <a href=""><i class="fas fa-minus-circle"> </i></a>
+                                    <a href=""><i class="fas fa-edit"></i></a>
+                                </th>
+                            </tr>`
+                    console.log(dt)
+
+                    $('#sub_table').append(dt);
+                }
+            })
+            .catch(err => err)
+
+
+        return data;
+    }
+
+    function deleteCategory(id) {
+        console.log(id)
+        fetch(`/Admin/Category/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+            .then(data => {
+                const msg = data.data;
+                $('#msg').append(msg).css("color", "white");
+                getCategory()
+            })
+        // document.load(true);
+    }
+
+    // Array.from(document.getElementsByClassName('category_id')).forEach(function () {
+    //         this.addEventListener('click', function () {
+    //             const _id = this.value()
+    //             console.log(_id)
+    //             // const data = fetch(`/Adimn/Category/SubCategory/${_id}`, {
+    //             //     method: "GET",
+    //             //     headers: {
+    //             //         "Content-Type": "application/json",
+
+    //             //     },
+    //             // })
+    //             //     .then(data => data.json())
+    //             //     .then(data => {
+    //             //         const arr = data.sub
+    //             //         for (let dat of arr) {
+    //             //             console.log(dat);
+    //             //             const dt =
+    //             //                 `<tr class='clickable-row' data-href='url://'>
+    //             //             <th scope="row">${dat._id}</th>
+    //             //             <td>${dat.subCategory_name}</td>
+    //             //             <th>
+    //             //                 <a href=""><i class="fas fa-minus-circle"> </i></a>
+    //             //                 <a href=""><i class="fas fa-edit"></i></a>
+    //             //             </th>
+    //             //         </tr>`
+    //             //             console.log(dt)
+    //             //             $('#sub_table').append(dt);
+    //             //         }
+    //             //     })
+    //             //     .catch(err => err)
+
+
+    //             // return data;
+    //         })
+    //     });
+
+
+    // setInterval(getCategory, 300)
+    // getCategory();
+</script>
+
+<%- include("../../includes/scripts.ejs") %>
+</body>
+
+</html>
