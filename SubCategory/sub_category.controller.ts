@@ -28,7 +28,7 @@ export class SubCategoryController{
                 .populate('product_id')
                 .then(data => data)
                 .catch(err => console.log(err));
-            return res.status(200).json({ data: data });
+            return res.status(200).render("Templates/Admin/SubCategory.ejs", {data: data});
             
         } catch (err) {
             res.status(500).json({ "error": "Internal Server Error" });

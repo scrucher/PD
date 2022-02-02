@@ -14,7 +14,7 @@ export class Category extends Schema {
     @prop({
         ref: "SubCategoryModel"
     })
-    public subCategy_id: Ref<SubCategory>[]
+    public subCategory_id: Ref<SubCategory>[]
 
     @prop({
         ref: "ProductModel"

@@ -38,7 +38,7 @@ const IsSuperAdmin = async (req, res, next) => {
                 next();
             }else 
             {
-                return res.render('Templates/Login.ejs',{"error":"Aceess Denied "})
+                return res.render('Templates/Login.ejs',{"error":"Access Denied "})
             } 
         }          
     }catch(err){

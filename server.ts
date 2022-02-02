@@ -8,6 +8,7 @@ import subCategory_router from "./SubCategory/sub_catgory.route";
 import product_router from "./Products/Products.route";
 import fileUpload from "express-fileupload";
 import User_router from "./Users/user.route";
+import char_router from "./Charcteristics/characteristics.route";
 
 const app: Application = express();
 export async function App() {
@@ -27,7 +28,8 @@ export async function App() {
     app.use(category_router);
     app.use(subCategory_router);
     app.use(product_router);
-    app.use(User_router)
+    app.use(User_router);
+    app.use(char_router);
     //last one 
     app.use(function (req, res, next) {
         res.status(404).render('Templates/404.ejs');

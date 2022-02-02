@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { CharDto } from "./characteristics.dto";
-import { CharacteristicsModel } from "./characteristics.model";
+import { CharDto } from "../Charcteristics/characteristics.dto";
+import { CharacteristicsModel } from "../Charcteristics/characteristics.model";
 import { ProductDTO } from "./Product.dto";
 import { ProductModel } from "./Product.model";
 
