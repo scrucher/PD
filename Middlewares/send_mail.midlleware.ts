@@ -7,7 +7,9 @@ import { Creadentials } from "./credentials.dto";
 async function SendMail (credentials: Creadentials){
 
     try {
+        // @ts-ignore
         const transporter = nodemailer.createTransport({
+            //@ts-ignore
             host: MailConfig.host,
             port: MailConfig.port,
             secure: true,
