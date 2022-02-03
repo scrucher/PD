@@ -1,6 +1,4 @@
 import { Request, Response } from "express";
-import { CharDto } from "../Charcteristics/characteristics.dto";
-import { CharacteristicsModel } from "../Charcteristics/characteristics.model";
 import { ProductDTO } from "./Product.dto";
 import { ProductModel } from "./Product.model";
 
@@ -12,8 +10,7 @@ export class ProductController{
             description,
             category_id,
             price,
-            subCategory_id,
-            charachteristics }: ProductDTO = req.body
+            subCategory_id }: ProductDTO = req.body
         console.log({ "file_name": req.files })
         console.log({ "file_name": req.file })
 
