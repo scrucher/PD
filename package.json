@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "ts-node-dev --respawn --transpile-only --exit-child --watch src ./main.ts",
-    "start": "ts-node ./main.ts",
+    "start:dev": "ts-node-dev --respawn --transpile-only --exit-child --watch src index.ts",
+    "start": "node .",
     "build": "tsc",
     "postinstall": "npm run build"
   },
