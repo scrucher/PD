@@ -1,5 +1,4 @@
-export const DbUrl = process.env.MONGODB_URI || 'mongodb://food-delivery-db:27018/food-delivery-db' ||
-                    'mongodb://localhost:27018/food-delivery-db'
+export const DbUrl = process.env.MONGODB_URI ||'mongodb+srv://scrucher:dark@life@2014@cluster0.vps4s.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
     console.log(process.env.MONGODB_URI)
 export const DbConnectionOptions = {
     autoIndex: true,
