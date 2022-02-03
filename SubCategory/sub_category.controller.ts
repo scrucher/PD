@@ -10,6 +10,7 @@ export class SubCategoryController{
     public static async CreateSubCategory(req: Request, res: Response) {
         const data: SubCategoryDTO = req.body
         console.log(data);
+        console.log(req.file)
         try {
             const created = await SubCategoryModel.create(data)
                 .then(data=> data)
@@ -25,9 +26,9 @@ export class SubCategoryController{
     public static async GetAllSubCategories(req: Request, res: Response) {
         try {
             const data = await SubCategoryModel.find()
-                .populate('product_id')
                 .then(data => data)
                 .catch(err => console.log(err));
+            console.log(data)
             return res.status(200).render("Templates/Admin/SubCategory.ejs", {data: data});
             
         } catch (err) {
