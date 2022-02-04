@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "ts-node-dev --respawn --transpile-only --exit-child --watch src index.ts",
-    "start": "node node dist/src/index.js",
+    "start": "ts-node index.ts",
     "build": "tsc",
     "postinstall": "npm run build"
   },
