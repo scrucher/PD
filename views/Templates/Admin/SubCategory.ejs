@@ -27,7 +27,7 @@
         top: -40px;
         left: -10px;
         border-radius: 50%;
-        background-color: red;
+        background-color: #582c2c;
         font-size: 10px;
     }
 
@@ -116,6 +116,7 @@
 
                         <div class="">
                             <h3>Create Sub-Category</h3>
+                            <div class="alert-primary" id="msg"></div>
                             <form onsubmit="return false;" style="display: flex; " id="subCategory_form">
                                 <div class="row">
                                     <div class="form-row">
@@ -127,7 +128,7 @@
                                     <div class="form-row">
                                         <div class="form_group">
                                             <label class="form-label">Select Image</label>
-                                            <input class="from-control" type="file" name="image">
+                                            <input type="file" class="from-control" name="image" id="image">
 
                                         </div>
                                     </div>
@@ -140,7 +141,7 @@
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group" style="width: 15%;">
-                                            <button type="submit" onclick="createSubCategory()" class="btn btn-info">Create
+                                            <button type="submit" onclick="createSubCategory()" class="btn btn-primary">Create
                                             </button>
                                         </div>
                                     </div>
@@ -197,11 +198,15 @@
             return obj;
         }, {});
         ;
+        const img = $('#image').file()
+        const image = {"image":img}
+        const bd = dt+ image
+        console.log({body: img})
 
-        console.log(dt);
+        console.log({"data":bd});
         const data = fetch('/Admin/SubCategory', {
             method: "POST",
-            body: dt,
+            body: JSON.stringify(image),
             headers: {
                 "Content-Type": "application/json"
             }
