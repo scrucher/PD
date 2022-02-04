@@ -2,7 +2,7 @@ import multer from 'multer';
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, '../Public/data/uploads');
+        cb(null, '../Public/data/uploads/');
         console.log({
             "req2": req,
             "file2": file,
