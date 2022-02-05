@@ -5,7 +5,7 @@ import app, { App } from "./server";
 
 async function Bootstrap() {
     const port = process.env.PORT || 5000;
-    console.log(port)
+    console.log({port: port})
     App();
     mongoose.Promise = global.Promise;
     await mongoose.connect(DbUrl, DbConnectionOptions )
