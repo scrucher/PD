@@ -15,7 +15,7 @@ const app: Application = express();
 export async function App() {
     
     app.set('view engine', 'ejs')
-    app.use(express.static(path.join(__dirname+'/Public')));
+    app.use(express.static(path.join(__dirname,'/Public')));
     console.log({root:__dirname})
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));  
