@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import app, { App } from "./server";
 
 async function Bootstrap() {
-    const port = process.env.PORT  || process.env.port || 5000;
+    const port = process.env.PORT  || process.env.port || 80;
     App();
     mongoose.Promise = global.Promise;
     await mongoose.connect(DbUrl, DbConnectionOptions )
