@@ -9,20 +9,13 @@ async function Bootstrap() {
     App();
     mongoose.Promise = global.Promise;
     await mongoose.connect(DbUrl, DbConnectionOptions )
-    const connection = mongoose.connection;
-
-    connection.once('open', ()=>{
-        app.listen(port, () => {
-            console.log(`app listen on  localhost:${port}`);
-        });
-    })
-/*        .then(() => {
+        .then(() => {
             app.listen(port, () => {
                 console.log(`app listen on  localhost:${port}`);
             });
         })
         .catch(err => {
             console.log(err);
-        });*/
+        });
 }
 Bootstrap();
