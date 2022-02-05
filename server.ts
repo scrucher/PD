@@ -9,13 +9,14 @@ import product_router from "./Products/Products.route";
 import fileUpload from "express-fileupload";
 import User_router from "./Users/user.route";
 import char_router from "./Charcteristics/characteristics.route";
+import path from "path";
 
 const app: Application = express();
 export async function App() {
     
     app.set('view engine', 'ejs')
-    app.use(express.static('/Public'));
-    console.log(__dirname)
+    app.use(express.static(path.join(__dirname+'/Public')));
+    console.log({root:__dirname})
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));  
     app.use(cors({ origin: "*" }))
