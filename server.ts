@@ -18,7 +18,8 @@ export async function App() {
     app.use(express.static(path.join(__dirname,'/Public')));
     console.log({root:__dirname})
     app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({ extended: true }));  
+    app.use(bodyParser.urlencoded({ extended: true,}));
+    app.use(express.bodyParser({ keepExtensions: true, uploadDir: __dirname + '/Public/data/uploads' }))
     app.use(cors({ origin: "*" }))
     app.use(cookieParser());
     // app.use(fileUpload())
