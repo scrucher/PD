@@ -46,10 +46,85 @@
         height: 40px;
         font-size: 17px;
     }
+    body {
+        background-color: #eee
+    }
+
+    .container {
+        width: 900px
+    }
+
+    .card {
+        background-color: #fff;
+        border: none;
+        border-radius: 10px;
+        width: 190px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+    }
+
+    .image-container {
+        position: relative
+    }
+
+    .thumbnail-image {
+        border-radius: 10px !important
+    }
+
+    .first {
+        position: absolute;
+        width: 100%;
+        padding: 9px
+    }
+
+    .dress-name {
+        font-size: 13px;
+        font-weight: bold;
+        width: 75%
+    }
+
+    .new-price {
+        font-size: 13px;
+        font-weight: bold;
+        color: red
+    }
+
+    .btn {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        padding: 3px
+    }
+
+
+
+    .item-size {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background: #fff;
+        border: 1px solid grey;
+        color: grey;
+        font-size: 10px;
+        text-align: center;
+        align-items: center;
+        display: flex;
+        justify-content: center
+    }
+
+
+    .buy {
+        font-size: 12px;
+        color: purple;
+        font-weight: 500
+    }
+
 </style>
 
 
 <main>
+    <section >
+        
+    </section>
 
     <section class="main-panel">
         <%- include("nav-bar-user.ejs") %>
@@ -67,8 +142,11 @@
                         </section>
                         <section>
                             <h1 class="section-title">Product</h1>
-                            <div class="row" id="prod-row">
+                            <div class="container mt-5">
+                                <div class="row" id="prod-row">
 
+
+                                </div>
                             </div>
                         </section>
                     </div>
@@ -127,19 +205,29 @@
                     console.log({"Product data": data})
                     const arr = data.data
                     for (const dt of arr) {
-                        const res =
-                            `<div class="card" style="height: 200px; width: 260px; margin: 10px; ">
-                            <img class="card-img" src="${dt.image}" alt="">
-                            <div class="card-body">
-                            <h4>${dt.name}</h4>
-                            <button id="cat-btn" value="${dt._id}" type="button" >
-                            <p class="card-text"> ${dt.price}</p>
-                    </button>
+                        const res = `
+        <div class="col-md-3">
+            <div class="card" >
+                <div class="image-container">
+                    <div class="first">
+                        <div class="d-flex justify-content-between align-items-center">  </div>
+                    </div> <img src="https://i.imgur.com/8JIWpnw.jpg" class="img-fluid rounded thumbnail-image">
+                </div>
+                <div class="product-detail-container p-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="dress-name">${dt.name}</h5>
+                        <div class="d-flex flex-column mb-2"> <span class="new-price">${dt.price} DH</span></div>
                     </div>
-                    <div class="button-container">
-                        <button type="button" id="prod-btn" class="btn btn-primary"><i class="fas fa-shopping-cart"></i></button>
+                    <div class="d-flex justify-content-between align-items-center pt-1">
+
+                        <div class="d-flex "> <span class="item-size mr-2 btn" type="button">${dt.description}</span>  </div>
                     </div>
-                    </div>`
+                    <div class="d-flex justify-content-between align-items-center pt-1">
+                         <span class="buy" type="button">BUY +</span>
+                    </div>
+                </div>
+            </div>
+        </div>`
                         $('#prod-row').append(res)
                     }
                 })

@@ -7,4 +7,7 @@ export class SubCategoryDTO{
 
     @IsNotEmpty()
     category_id: string;
+
+    @IsNotEmpty()
+    image: string;
 }

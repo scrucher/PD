@@ -16,6 +16,9 @@ export class SubCategory extends Schema {
     })
     product_id: Ref<Product>[];
 
+    @prop()
+    image: string;
+
     @prop({
         ref: "CategoryModel",
     })

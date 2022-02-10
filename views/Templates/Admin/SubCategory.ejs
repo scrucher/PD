@@ -146,16 +146,9 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-
-
                             </form>
                         </div>
-
-
                     </div>
-
                 </div>
             </div>
         </div>
@@ -193,20 +186,18 @@
     // }
 
     function createSubCategory() {
-        const dt = $('#subCategory_form').serializeArray().reduce(function (obj, item) {
+        let dt = $('#subCategory_form').serializeArray().reduce(function (obj, item) {
             obj[item.name] = item.value;
             return obj;
         }, {});
-        ;
-        const img = $('#image').file()
-        const image = {"image":img}
-        const bd = dt+ image
-        console.log({body: img})
-
-        console.log({"data":bd});
+        const frm = document.querySelector('#image').files[0];
+        console.log({form: frm})
+        const image = {"image":frm}
+        dt = {...dt, ...image}
+        console.log({"data":dt});
         const data = fetch('/Admin/SubCategory', {
             method: "POST",
-            body: JSON.stringify(image),
+            body: JSON.stringify(dt),
             headers: {
                 "Content-Type": "application/json"
             }
