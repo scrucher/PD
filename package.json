@@ -9,7 +9,7 @@
     "start": "ts-node index.ts",
     "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
     "copy-static-assets": "ts-node copyStaticAssets.ts",
-    "build": "tsc && npm run lint && npm run copy-static-assets",
+    "build": "tsc && npm run copy-static-assets",
     "postinstall": "npm run build"
   },
   "author": "scrucher",
