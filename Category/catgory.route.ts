@@ -1,7 +1,6 @@
 import express from "express";
 import IsSuperAdmin from "../Middlewares/auth/is_super_user.middleware";
 import { CategoryController } from "./category.controller";
-import {FormUpload} from "../Middlewares/FormMiddleware.middleware"
 import formidable from "formidable";
 const category_router = express.Router();
 
