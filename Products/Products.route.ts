@@ -12,7 +12,7 @@ product_router.get('/Admin/Products', ProductController.GetAllProducts);
 product_router.get('/Products', ProductController.GetProducts);
 
 
-product_router.post('/Admin/Products', upload ,IsSuperAdmin,ProductController.CreateProduct);
+product_router.post('/Admin/Products', upload.single("image") ,IsSuperAdmin,ProductController.CreateProduct);
 
 export default product_router;
 

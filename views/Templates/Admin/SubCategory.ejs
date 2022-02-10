@@ -80,6 +80,7 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">#</th>
+                                    <th scope="col">Sub-Category Name</th>
                                     <th scope="col">Category Name</th>
                                 </tr>
                                 </thead>
@@ -95,6 +96,7 @@
                                             <!-- <%= data[i]._id %> -->
                                         </th>
                                         <td><%= data[i].subCategory_name %></td>
+                                        <td></td>
                                         <th>
                                             <button id="btn" class="fas fa-minus-circle"
                                                     onclick="deleteCategory('<%= data[i]._id %>')"></button>
@@ -193,7 +195,7 @@
         const frm = document.querySelector('#image').files[0];
         console.log({form: frm})
         const image = {"image":frm}
-        dt = {...dt, ...image}
+        dt = {...dt, ...frm}
         console.log({"data":dt});
         const data = fetch('/Admin/SubCategory', {
             method: "POST",

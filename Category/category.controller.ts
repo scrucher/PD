@@ -7,6 +7,8 @@ export class CategoryController{
 
     public static async CreateCategory(req: Request, res: Response) {
         const category: CatgoryDTO = req.body
+        console.log(req.body)
+        console.log({"files": req.file})
         try {
             await CategoryModel.create(category)
             return res.status(201).json({data: "Category Created Successfully"})

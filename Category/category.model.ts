@@ -9,17 +9,20 @@ import { Product, ProductModel } from "../Products/Product.model";
 export class Category extends Schema {
 
     @prop()
-    public category_name: string;
+    category_name: string;
+
+    @prop()
+    image: string;
 
     @prop({
         ref: "SubCategoryModel"
     })
-    public subCategory_id: Ref<SubCategory>[]
+    subCategory_id: Ref<SubCategory>[]
 
     @prop({
         ref: "ProductModel"
     })
-    public product_id: Ref<Product>[]
+    product_id: Ref<Product>[]
 
 
 

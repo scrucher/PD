@@ -10,7 +10,6 @@ import fileUpload from "express-fileupload";
 import User_router from "./Users/user.route";
 import char_router from "./Charcteristics/characteristics.route";
 import path from "path";
-import upload from "./Middlewares/upload.middleware";
 import morgan from "morgan";
 
 const app: Application = express();
@@ -20,7 +19,6 @@ export async function App() {
     console.log({root:__dirname});
     app.use(bodyParser.json({limit: "50mb"}));
     app.use(bodyParser.urlencoded({ extended: true, limit: "50mb"}));
-
     // app.use(express.bodyParser({ keepExtensions: true, uploadDir: __dirname + '/Public/data/uploads' }))
     app.use(cors({ origin: "*" }))
     app.use(cookieParser());
@@ -28,7 +26,6 @@ export async function App() {
         res.render('Templates/index.ejs');
     });
     app.use(morgan('dev'));
-    app.use(upload)
     app.use(fileUpload({createParentPath: true,}))
     app.use(admin_router);
     app.use(category_router);
