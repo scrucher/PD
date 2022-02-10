@@ -5,18 +5,24 @@ import { SubCategoryModel } from "./sub_category.model";
 
 
 export class SubCategoryController{
-
-
+    
     public static async CreateSubCategory(req: Request, res: Response) {
-        const data: SubCategoryDTO = req.body
-        console.log(data);
+        const {subCategory_name, category_id}: SubCategoryDTO = req.body
+        const image = req.file?.filename
+        console.log(req.body);
         console.log(req.file)
+        console.log(req.files)
         try {
+            const data = {
+                category_id: category_id,
+                subCategory_name: subCategory_name,
+                image: image,
+            }
             const created = await SubCategoryModel.create(data)
                 .then(data=> data)
                 .catch(err => console.log(err))
             console.log({ "data": created, "msg": "SubCategory Created Successfully" })
-            return ({ "data": created, "msg": "SubCategory Created Successfully" });
+            return ({"msg": "SubCategory Created Successfully" });
  
          } catch (err) {
             res.status(500).json({ "error": "Internal Server Error" });
