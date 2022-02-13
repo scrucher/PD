@@ -70,4 +70,6 @@ export class ProductController{
             return res.status(500).json({"err": "Internal Server Error"})
         }
     }
+
+    
 }
